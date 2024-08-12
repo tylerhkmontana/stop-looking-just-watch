@@ -8,20 +8,24 @@ export default function Nav() {
   const { searchHandler } = useThemeContext();
   return (
     <nav className={styles.nav}>
-      <div className={styles.logo}>
-        <Link href={'/'}>ChipsOnCouch</Link>
-      </div>
+      <div className={styles.logo_and_routes}>
+        <Link href={'/'}>
+          <h1 className={styles.logo}>ChipsOnCouch</h1>
+        </Link>
 
-      <div className={styles.routes}>
-        <Link href={'/'}>Home</Link>
-        <Link href={'/movies'}>Movies</Link>
-        <Link href={'/tvshows'}>TV Shows</Link>
-        <Link href={'/genres'}>Browse By Genres</Link>
+        <div className={styles.routes}>
+          <Link href={'/'}>Home</Link>
+          <Link href={'/movies'}>Movies</Link>
+          <Link href={'/tvshows'}>TV Shows</Link>
+          <Link href={'/genres'}>Browse By Genres</Link>
+        </div>
       </div>
 
       <form className={styles.search_bar} onSubmit={(e) => searchHandler(e)}>
-        <input name="searchInput" />
-        <button>search</button>
+        <input name="searchInput" required />
+        <button>
+          <img src="/icons/search.svg" alt="search logo" />
+        </button>
       </form>
     </nav>
   );
