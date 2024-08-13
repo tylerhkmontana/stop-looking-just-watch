@@ -7,7 +7,7 @@ import { useThemeContext } from '@/context/theme';
 
 // Components
 import Img from '@/components/img';
-import Nav from '@/components/nav';
+import Poster from '@/components/poster';
 
 export default function Home() {
   const { searchResult } = useThemeContext();
@@ -26,8 +26,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <Nav />
-
       {searchResult.length > 0 ? (
         <div>
           {searchResult.map((movie, i) => (
@@ -51,18 +49,7 @@ export default function Home() {
           <br />
           <div className={styles.now_playing}>
             {nowPlaying.map((movie, i) => (
-              <div className={styles.movie} key={i}>
-                <div className={styles.movie_poster}>
-                  {movie.poster_path ? (
-                    <Img
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${movie.poster_path}`}
-                    />
-                  ) : (
-                    <span>Image Not Available</span>
-                  )}
-                </div>
-                <h4>{movie.title}</h4>
-              </div>
+              <Poster movie={movie} key={i} />
             ))}
           </div>
         </div>

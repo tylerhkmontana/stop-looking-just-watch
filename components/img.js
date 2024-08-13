@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 export default function Img({
   src,
-  objectFit = 'cover',
-  layout = 'fill',
   alt = 'this is a image',
   quality = 100,
-  style = {},
+  fill = true,
+  objectFit = 'cover',
+  style = { objectFit: 'cover' },
   priority = false,
 }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +18,9 @@ export default function Img({
       {isLoading && <Spinner />}
       <Image
         onLoad={() => setIsLoading(false)}
+        fill={fill}
         priority={priority}
         src={src}
-        objectFit={objectFit}
-        layout={layout}
         alt={alt}
         quality={quality}
         style={style}

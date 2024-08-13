@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.scss';
 import { ThemeProvider } from '@/context/theme';
+import Nav from '@/components/nav';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +16,11 @@ export default function RootLayout({ children }) {
       <head>
         <title>ChipsOnCouch</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Nabla&display=swap"
           rel="stylesheet"
@@ -23,7 +28,10 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/x-icon" href="/icons/chips.svg" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Nav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
