@@ -3,7 +3,7 @@ import styles from './page.module.scss';
 
 export default async function MovieDetail({ params }) {
   const { id } = params;
-  const data = await fetch(`${process.env.BASE_URL}/api/detail/${id}`).then(
+  const data = await fetch(`${process.env.BASE_URL}/api/detail/${id}`, { cache: 'no-store' }).then(
     (response) => response.json()
   );
   const { movie, casts } = data;
