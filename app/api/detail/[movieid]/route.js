@@ -1,15 +1,23 @@
 export async function GET(request, { params }) {
   const { movieid } = params;
-  const url = `https://api.themoviedb.org/3/movie/${movieid}?language=en-US`;
-  const res = await fetch(url, {
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${process.env.BEARER}`,
-    },
+  const headers = {
+    accept: 'application/json',
+    Authorization: `Bearer ${process.env.BEARER}`,
+  };
+  const url1 = `https://api.themoviedb.org/3/movie/${movieid}?language=en-US`;
+  const res1 = await fetch(url1, {
+    headers,
   });
 
-  const data = await res.json();
-  console.log(data);
+  const movie = await res1.json();
 
-  return Response.json({ movie: data });
+  const url2 = `https://api.themoviedb.org/3/movie/${movieid}/credits?language=en-US`;
+  const res2 = await fetch(url2, {
+    headers,
+  });
+
+  const data = await res2.json();
+  const casts = await data.cast;
+
+  return Response.json({ movie, casts });
 }
