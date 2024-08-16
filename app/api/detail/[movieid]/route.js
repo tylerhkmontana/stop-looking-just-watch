@@ -16,8 +16,7 @@ export async function GET(request, { params }) {
     headers,
   });
 
-  const data = await res2.json();
-  const casts = data.cast
+  const credits = await res2.json();
 
-  return Response.json({ movie, casts});
+  return Response.json({ movie, credits});
 }

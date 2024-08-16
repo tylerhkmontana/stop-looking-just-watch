@@ -57,8 +57,15 @@
 .profile {
   .profile_pic {
     position: relative;
-    width: 100px;
-    height: 150px;
+    width: 150px;
+    height: 220px;
+
+    img {
+      object-fit: contain;
+    }
+  }
+  p {
+    text-align: center;
   }
 }
 
