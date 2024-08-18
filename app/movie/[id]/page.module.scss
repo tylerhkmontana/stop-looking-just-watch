@@ -1,84 +1,183 @@
 @import '../../theme.scss';
 
+$gray: rgb(236, 236, 236);
+
 .main {
   padding: 100px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.backdrop {
-  width: 100vw;
-  height: 56.25vw;
+
+.movie_card {
+  position: relative;
+  color: white;
+  background-color: $gray;
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 800px;
+  width: 1000px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  padding-bottom: 50px;
+}
+
+.poster_and_genres {
+  z-index: 50;
   position: absolute;
-  z-index: -1;
-  top: 50px;
-  left: 0;
-
-  .fade_out {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.034) 0%,
-      rgb(255, 255, 255) 100%
-    );
-  }
-
-  .blur {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.219);
-  }
-}
-
-.movie_info {
+  top: 250px;
+  left: 100px;
+  height: auto;
+  width: 200px;
   display: flex;
-  gap: 50px;
-}
+  flex-direction: column;
+  gap: 10px;
 
-.title_and_casts {
-  flex: 2;
-  .movie_title {
-    font-size: 64px;
-    color: $background_color;
+  .movie_poster {
+    width: 200px;
+    height: 300px;
   }
 
-  .synopsis {
-    color: $background_color;
-    max-width: 700px;
-  }
-}
+  .genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 
-.casts {
-  display: flex;
-  gap: 50px;
-  max-width: 700px;
-  overflow-x: auto;
-}
-.profile {
-  .profile_pic {
-    position: relative;
-    width: 150px;
-    height: 220px;
-
-    img {
-      object-fit: contain;
+    span {
+      background-color: rgb(255, 255, 255);
+      color: gray;
+      font-size: small;
+      padding: 5px;
+      border-radius: 5px;
     }
   }
-  p {
-    text-align: center;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 520px;
+  padding: 0 0 150px 350px;
+}
+
+.backdrop {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: skewY(-5deg);
+  transform-origin: 0 0;
+  overflow: hidden;
+
+  .blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.432);
   }
 }
 
 .details {
-  flex: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  color: white;
+  gap: 5px;
+  .title {
+    font-size: 36px;
+  }
+
+  .rating {
+    position: relative;
+    width: 200px;
+    border-radius: 20px;
+    padding: 5px 0;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    .score {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.377);
+      z-index: 1;
+    }
+
+    p {
+      font-size: small;
+    }
+  }
 }
 
-.genres {
+.overview {
+  padding: 0 50px 0 350px;
+  color: $font_color;
+  min-height: 150px;
+}
+
+.credits {
+  padding: 0 50px;
+  color: $font_color;
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 10px;
+
+  .crews,
+  .casts {
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+  .crews {
+    max-height: 150px;
+  }
+
+  .casts {
+    max-height: 325px;
+  }
+}
+
+.person {
+  position: relative;
+  cursor: pointer;
+
+  .person_info {
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    p {
+      text-align: center;
+      font-size: small;
+    }
+  }
+}
+.profile_pic {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
 }

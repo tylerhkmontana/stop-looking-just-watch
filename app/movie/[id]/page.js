@@ -1,104 +1,117 @@
-import Image from "next/image";
-import styles from "./page.module.scss";
-import Link from "next/link";
+import Image from 'next/image';
+import styles from './page.module.scss';
+import Link from 'next/link';
 
 export default async function MovieDetail({ params }) {
   const { id } = params;
   const data = await fetch(`${process.env.BASE_URL}/api/detail/${id}`, {
-    cache: "no-store",
+    cache: 'no-store',
   }).then((response) => response.json());
   const { movie, credits } = data;
+  const ratingWidth = 200;
 
   return (
     <main className={styles.main}>
-      <div className={styles.backdrop}>
-        <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${movie.backdrop_path}/`}
-          fill
-          alt={`Backdrop Image: ${movie.title}`}
-        />
-        <div className={styles.blur}></div>
-        <div className={styles.fade_out}></div>
-      </div>
-
-      <div className={styles.movie_info}>
-        <div className={styles.title_and_casts}>
-          <h1 className={styles.movie_title}>{movie.title}</h1>
-          <br />
-          <br />
-          <br />
-          <br />
-          <p className={styles.synopsis}>{movie.overview}</p>
-          <br />
-          <br />
-                  {/* Direcotr or Writer */}
-          <div className={styles.casts}>
-            {credits.crew.map(
-              (person, i) =>
-                (person.job === "Writer" || person.job === "Screenplay" || person.job === "Director") && (
-                  <Link href={`/person/${person.id}`}><div className={styles.profile} key={i}>
-                    <div className={styles.profile_pic}>
-                      <Image
-                        src={
-                          person.profile_path
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${person.profile_path}`
-                            : "/icons/anonymous.png"
-                        }
-                        fill
-                        alt={`Writer: ${person.name}`}
-                      />
-                    </div>
-                    <p>{person.name}</p>
-                    <p>{person.job}</p>
-                  </div></Link>
-                )
-            )}
+      <div className={styles.movie_card}>
+        <div className={styles.poster_and_genres}>
+          <div className={styles.movie_poster}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${movie.poster_path}/`}
+              width={200}
+              height={300}
+              alt={`Poster Image: ${movie.title}`}
+            />
           </div>
-          <br/>
-          {/* Actors */}
-          <div className={styles.casts}>
-            {credits.cast.map(
-              (person, i) =>
-                person.known_for_department === "Acting" && (
-                  <Link href={`/person/${person.id}`}><div className={styles.profile} key={i}>
-                    <div className={styles.profile_pic}>
-                      <Image
-                        src={
-                          person.profile_path
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${person.profile_path}`
-                            : "/icons/anonymous.png"
-                        }
-                        fill
-                        alt={`Actor: ${person.name}`}
-                      />
-                    </div>
-                    <p>{person.name}</p>
-                    <p>{person.character}</p>
-                  </div></Link>
-                )
-            )}
+          <div className={styles.genres}>
+            {movie.genres.map((genre) => (
+              <span key={genre.id}>{genre.name}</span>
+            ))}
+          </div>
+        </div>
+        <div className={styles.hero}>
+          <div className={styles.details}>
+            <h1 className={styles.title}>
+              {movie.title}({movie.release_date.split('-')[0]})
+            </h1>
+            <h3>{movie.runtime} min</h3>
+            <div className={styles.rating}>
+              <div
+                className={styles.score}
+                style={{
+                  width: `${(ratingWidth / 10) * movie.vote_average}px`,
+                }}
+              ></div>
+              <p>{movie.vote_average.toPrecision(2)}</p>
+            </div>
+          </div>
+          <div className={styles.backdrop}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${movie.backdrop_path}/`}
+              fill
+              alt={`Backdrop Image: ${movie.title}`}
+            />
+            <div className={styles.blur}></div>
           </div>
         </div>
 
-        <div className={styles.details}>
-          <div>
-            {movie.spoken_languages.map((language, i) => (
-              <p key={i}>{language.name}</p>
-            ))}
+        <p className={styles.overview}>{movie.overview}</p>
+
+        <div className={styles.credits}>
+          <h5>Production</h5>
+          <div className={styles.crews}>
+            {credits.crew.map(
+              (person) =>
+                (person.job === 'Director' ||
+                  person.job === 'Screenplay' ||
+                  person.job === 'Writer') && (
+                  <Link href={`/person/${person.id}`} key={person.id}>
+                    <div className={styles.person}>
+                      <img
+                        className={styles.profile_pic}
+                        key={person.id}
+                        src={
+                          person.profile_path
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${person.profile_path}`
+                            : '/icons/anonymous.png'
+                        }
+                      />
+                      <div className={styles.person_info}>
+                        <p>
+                          <strong>{person.name}</strong>
+                        </p>
+                        <p>{person.job}</p>
+                      </div>
+                    </div>
+                  </Link>
+                )
+            )}
           </div>
-          <p>{movie.release_date}</p>
-          <p>{movie.runtime} min</p>
-          <p>{movie.vote_average}</p>
-          <p>${movie.revenue - movie.budget}</p>
-          <div className={styles.genres}>
-            {movie.genres.map((genre, i) => (
-              <span key={i}>{genre.name}</span>
-            ))}
-          </div>
-          <div className={styles.productions}>
-            {movie.production_companies.map((company, i) => (
-              <p key={i}>{company.name}</p>
-            ))}
+          <br />
+          <h5>Cast</h5>
+          <div className={styles.casts}>
+            {credits.cast.map(
+              (person) =>
+                person.known_for_department === 'Acting' && (
+                  <Link href={`/person/${person.id}`} key={person.id}>
+                    <div className={styles.person}>
+                      <img
+                        className={styles.profile_pic}
+                        src={
+                          person.profile_path
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${person.profile_path}`
+                            : '/icons/anonymous.png'
+                        }
+                      />
+                      <div className={styles.person_info}>
+                        <p>
+                          <strong>{person.name}</strong>
+                        </p>
+                        <p>{person.character}</p>
+                      </div>
+                    </div>
+                  </Link>
+                )
+            )}
           </div>
         </div>
       </div>
